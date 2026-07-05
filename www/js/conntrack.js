@@ -19,28 +19,58 @@ async function loadEntries() {
               l4Proto = orig.getElementsByTagName('layer4')[0].getAttribute('protoname');
         const meta = metaToHTML(independent);
 
-        const tableRow = document.createElement('template');
-        tableRow.innerHTML =
-            `<tr>
-                <td class="text-nowrap">${l3Proto} / <span class="hl-proto-${l4Proto}">${l4Proto}</td>
-                <td>${meta.state || '-'}</td>
-                <td>${layersToHTML(orig)}</td>
-                <td>${layersToHTML(reply)}</td>
-                <td>${meta.timeout || '-'}</td>
-                <td>${meta.id}</td>
-                <td><button class="btn-transparent transparentDeleteBtn" title="Delete" onclick="deleteEntry(${meta.id});">&nbsp;</button></td>
-            </tr>`;
-        connectionTable.appendChild(tableRow.content.firstChild);
+        const tableRow = document.createElement('tr');
+        
+        const protoCell = document.createElement('td');
+        protoCell.className = 'text-nowrap';
+        protoCell.textContent = l3Proto + ' / ';
+        const protoSpan = document.createElement('span');
+        protoSpan.className = `hl-proto-${escapeHtml(l4Proto)}`;
+        protoSpan.textContent = l4Proto;
+        protoCell.appendChild(protoSpan);
+        tableRow.appendChild(protoCell);
+        
+        const stateCell = document.createElement('td');
+        stateCell.innerHTML = meta.state || '-';
+        tableRow.appendChild(stateCell);
+        
+        const origCell = document.createElement('td');
+        origCell.innerHTML = layersToHTML(orig);
+        tableRow.appendChild(origCell);
+        
+        const replyCell = document.createElement('td');
+        replyCell.innerHTML = layersToHTML(reply);
+        tableRow.appendChild(replyCell);
+        
+        const timeoutCell = document.createElement('td');
+        timeoutCell.textContent = meta.timeout || '-';
+        tableRow.appendChild(timeoutCell);
+        
+        const idCell = document.createElement('td');
+        idCell.textContent = meta.id;
+        tableRow.appendChild(idCell);
+        
+        const actionCell = document.createElement('td');
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn-transparent transparentDeleteBtn';
+        deleteBtn.title = 'Delete';
+        deleteBtn.textContent = '\u00a0';
+        const entryId = meta.id;
+        deleteBtn.addEventListener('click', () => deleteEntry(entryId));
+        actionCell.appendChild(deleteBtn);
+        tableRow.appendChild(actionCell);
+        
+        connectionTable.appendChild(tableRow);
     });
 }
 
 async function deleteEntry(id) {
     try {
-        const res = await fetch('/api/conntrack?id='+id, { method: 'DELETE' });
+        const res = await fetch('/api/conntrack?id=' + encodeParam(id), { method: 'DELETE' });
         if(res.status == 500) throw new Error(await res.text());
         if(!res.ok) throw new Error('Request failed with status: '+res.status);
         showToast({
-            message: `Entry <b>${id}</b> successfully deleted`,
+            message: `Entry <b>${escapeHtml(id)}</b> successfully deleted`,
             type: 'danger'
         });
         await loadEntries();

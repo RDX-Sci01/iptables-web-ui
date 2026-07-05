@@ -4,9 +4,24 @@ LABEL org.opencontainers.image.source=https://github.com/1RandomDev/iptables-web
 
 RUN apk add iptables xtables-addons conntrack-tools
 
+# Create non-root user for security
+RUN addgroup -g 1000 nodeapp && \
+    adduser -D -u 1000 -G nodeapp nodeapp
+
 COPY . /app
 WORKDIR /app
-RUN npm install --omit=dev
+
+# Set proper permissions
+RUN chmod 755 /app && \
+    chmod 755 /app/src && \
+    chmod 755 /app/www && \
+    npm install --omit=dev && \
+    mkdir -p /app/data && \
+    chmod 700 /app/data && \
+    chown -R nodeapp:nodeapp /app/data
+
+# Run as non-root user
+USER nodeapp
 
 VOLUME /app/data
 ENTRYPOINT ["node", "src/main.js"]

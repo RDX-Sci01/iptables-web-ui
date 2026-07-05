@@ -12,37 +12,44 @@ A web-based manager for Iptables rules that uses the same syntax as the `iptable
 
 ![Screenshot](https://raw.githubusercontent.com/1RandomDev/iptables-web-ui/master/assets/screenshot1.png)
 
+## ⚠️ Security Notice
+
+This application provides administrative access to firewall rules and should be treated with high security:
+
+- **Do NOT expose to the internet without HTTPS/TLS encryption**
+- **Use a strong, randomly generated password** (minimum 16+ characters)
+- **Only accessible from trusted networks**
+- **Requires NET_ADMIN capability** - runs with elevated privileges
+- **Default session timeout**: 15 minutes for inactive tokens
+- **Password hashing**: Uses bcrypt for secure password storage
+- **Rate limiting**: Login attempts are limited to prevent brute force attacks
+
+For security improvements and bug reports, please see [SECURITY.md](SECURITY.md) or contact the maintainer.
+
 ## Installation
 
-**Docker CLI:**
+**Docker CLI (with .env file for secure password storage):**
 ```bash
+# 1. Create .env file with strong password
+echo "WEBUI_PASSWORD=$(openssl rand -base64 32)" > .env
+chmod 600 .env
+
+# 2. Run container
 docker run -d --name=iptables-web-ui \
     --network=host \
     -v data:/app/data \
     -v /etc/iptables:/etc/iptables \
+    -v $(pwd)/.env:/app/.env \
     -e TZ=<timezone> \
-    -e WEBUI_PASSWORD=<my_secret_password> \
-    ghcr.io/1randomdev/iptables-web-ui:latest
+    --env-file .env \
+    ghcr.io/rdx-sci01/iptables-web-ui:latest
 ```
 
-**Docker Compose:**
-```yaml
-services:
-  iptables-web-ui:
-    container_name: iptables-web-ui
-    image: ghcr.io/1randomdev/iptables-web-ui:latest
-    network_mode: host
-    cap_add:
-      - NET_ADMIN
-    volumes:
-      - iptables-web-ui_data:/app/data
-      - /etc/iptables:/etc/iptables # Optional, necessary for saving lists for iptables-persistent
-    environment:
-      - TZ=<timezone>
-      - WEBUI_PASSWORD=<my_secret_password>
-    restart: unless-stopped
-```
-For all available options see [docker-compose.yml](https://github.com/1RandomDev/iptables-web-ui/blob/master/docker-compose.yml)
+**Docker Compose (recommended):**
+1. Copy [.env.example](.env.example) to `.env` and set `WEBUI_PASSWORD` with a strong password
+2. Run: `docker-compose up -d`
+
+See [docker-compose.yml](https://github.com/RDX-Sci01/iptables-web-ui/blob/master/docker-compose.yml) and [.env.example](.env.example) for all options.
 
 ## Configuration
 | Variable | Description | Default |

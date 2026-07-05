@@ -34,25 +34,38 @@ async function loadChains() {
     for(const element of document.querySelectorAll('#chainSelect [data-table]')) {
         const table = element.dataset.table;
         const ip6 = element.dataset.ip6 == 'true';
-        let html = '';
     
-        let res = await fetch(`/api/chain?table=${table}&ip6=${ip6}`);
+        let res = await fetch(`/api/chain?table=${encodeParam(table)}&ip6=${ip6}`);
         if(res.status == 500) throw new Error(await res.text());
         if(!res.ok) throw new Error('Request failed with status: '+res.status);
         res = await res.json();
         defaultChain = res.defaultChain;
+        
+        const dropdownMenu = element.querySelector('.dropdown-menu');
+        dropdownMenu.innerHTML = '';
         
         res.chains.forEach(chain => {
             chain.table = table;
             chain.ip6 = ip6;
             const chainId = ip6+'-'+table+'-'+chain.name;
             chains[chainId] = chain;
-            html += `<li><div class="dropdown-item curs-pointer ${chain.system ? 'fw-bold' : ''}" onclick="switchChain('${chainId}')">${chain.name}</div></li>`;
+            
+            const li = document.createElement('li');
+            const div = document.createElement('div');
+            div.className = `dropdown-item curs-pointer ${chain.system ? 'fw-bold' : ''}`;
+            div.textContent = chain.name;
+            div.addEventListener('click', () => switchChain(chainId));
+            li.appendChild(div);
+            dropdownMenu.appendChild(li);
         });
     
-        html += `<li><div class="dropdown-item curs-pointer" onclick="showCreateChainModal('${table}', '${ip6}')">[New Chain]</div></li>`;
-    
-        element.querySelector('.dropdown-menu').innerHTML = html;
+        const li = document.createElement('li');
+        const div = document.createElement('div');
+        div.className = 'dropdown-item curs-pointer';
+        div.textContent = '[New Chain]';
+        div.addEventListener('click', () => showCreateChainModal(table, ip6));
+        li.appendChild(div);
+        dropdownMenu.appendChild(li);
     }
 
     if(!currentChain) await switchChain(defaultChain);
@@ -96,7 +109,7 @@ document.querySelector('#currentChainActions .transparentEditBtn').addEventListe
 async function renameCurrentChain(newName) {
     if(!newName || newName == currentChain.name) return;
 
-    let res = await fetch(`/api/chain?table=${currentChain.table}&ip6=${currentChain.ip6}&action=rename&name=${currentChain.name}&newName=${newName}`, { method: 'POST'});
+    let res = await fetch(`/api/chain?table=${encodeParam(currentChain.table)}&ip6=${currentChain.ip6}&action=rename&name=${encodeParam(currentChain.name)}&newName=${encodeParam(newName)}`, { method: 'POST'});
     if(res.status == 500) throw new Error(await res.text());
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
 
@@ -129,7 +142,7 @@ document.querySelector('#currentChainActions .transparentDeleteBtn').addEventLis
     }
 });
 async function deleteCurrentChain() {
-    let res = await fetch(`/api/chain?table=${currentChain.table}&ip6=${currentChain.ip6}&name=${currentChain.name}`, { method: 'DELETE' });
+    let res = await fetch(`/api/chain?table=${encodeParam(currentChain.table)}&ip6=${currentChain.ip6}&name=${encodeParam(currentChain.name)}`, { method: 'DELETE' });
     if(res.status == 500) throw new Error(await res.text());
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
 
@@ -166,7 +179,7 @@ async function showCreateChainModal(table, ip6) {
     }
 }
 async function createNewChain(table, ip6, name) {
-    let res = await fetch(`/api/chain?table=${table}&ip6=${ip6}&name=${name}`, { method: 'PUT' });
+    let res = await fetch(`/api/chain?table=${encodeParam(table)}&ip6=${ip6}&name=${encodeParam(name)}`, { method: 'PUT' });
     if(res.status == 500) throw new Error(await res.text());
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
 
@@ -186,7 +199,7 @@ document.querySelector('#currentChainDefaultPolicy select').addEventListener('ch
     }
 });
 async function setDefaultPolicy(policy) {
-    let res = await fetch(`/api/chain?table=${currentChain.table}&ip6=${currentChain.ip6}&action=setDefaultPolicy&name=${currentChain.name}&policy=${policy}`, { method: 'POST'});
+    let res = await fetch(`/api/chain?table=${encodeParam(currentChain.table)}&ip6=${currentChain.ip6}&action=setDefaultPolicy&name=${encodeParam(currentChain.name)}&policy=${encodeParam(policy)}`, { method: 'POST'});
     if(res.status == 500) throw new Error(await res.text());
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
 }
@@ -200,14 +213,14 @@ saveChainToggle.addEventListener('change', async event => {
     }
 });
 async function setChainDynamic(dynamic) {
-    let res = await fetch(`/api/chain?table=${currentChain.table}&ip6=${currentChain.ip6}&action=setDynamic&name=${currentChain.name}&dynamic=${dynamic}`, { method: 'POST'});
+    let res = await fetch(`/api/chain?table=${encodeParam(currentChain.table)}&ip6=${currentChain.ip6}&action=setDynamic&name=${encodeParam(currentChain.name)}&dynamic=${dynamic}`, { method: 'POST'});
     if(res.status == 500) throw new Error(await res.text());
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
 }
 
 // Rules
 async function loadRules(forceUpdate = true) {
-    let res = await fetch(`/api/rules?chain=${currentChain.name}&table=${currentChain.table}&ip6=${currentChain.ip6}`);
+    let res = await fetch(`/api/rules?chain=${encodeParam(currentChain.name)}&table=${encodeParam(currentChain.table)}&ip6=${currentChain.ip6}`);
     if(res.status == 500) throw new Error(await res.text());
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
     res = await res.json();
@@ -224,30 +237,57 @@ async function loadRules(forceUpdate = true) {
         rulesTable.innerHTML = '';
         numRules = res.length;
         if(res.length == 0) {
-            const tableRow = document.createElement('template');
-                tableRow.innerHTML =
-                    `<tr>
-                        <td></td>
-                        <td></td>
-                        <td class="text-light">Empty chain</td>
-                        <td></td>
-                    </tr>`;
-            rulesTable.appendChild(tableRow.content.firstChild);
+            const tableRow = document.createElement('tr');
+            const td1 = document.createElement('td');
+            const td2 = document.createElement('td');
+            const td3 = document.createElement('td');
+            td3.className = 'text-light';
+            td3.textContent = 'Empty chain';
+            const td4 = document.createElement('td');
+            tableRow.appendChild(td1);
+            tableRow.appendChild(td2);
+            tableRow.appendChild(td3);
+            tableRow.appendChild(td4);
+            rulesTable.appendChild(tableRow);
         } else {
             res.forEach(rule => {
-                const tableRow = document.createElement('template');
-                tableRow.innerHTML =
-                    `<tr id="rule-${i}" data-rule="${rule}">
-                        <td class="handle"></td>
-                        <td>${i}</td>
-                        <td class="rule">${highlightRuleSyntax(rule)}</td>
-                        <td>
-                            <button class="btn-transparent transparentEditBtn" title="Edit" onclick="showEditRuleField(this, ${i})">&nbsp;</button>
-                            <button class="btn-transparent transparentDeleteBtn" title="Delete" onclick="showDeleteRuleModal(this, event.shiftKey, ${i});">&nbsp;</button>
-                        </td>
-                    </tr>`;
-               rulesTable.appendChild(tableRow.content.firstChild);
-               i++;
+                const tableRow = document.createElement('tr');
+                tableRow.id = `rule-${i}`;
+                tableRow.dataset.rule = rule;
+                tableRow.dataset.index = i;
+                
+                const handleCell = document.createElement('td');
+                handleCell.className = 'handle';
+                tableRow.appendChild(handleCell);
+                
+                const indexCell = document.createElement('td');
+                indexCell.textContent = i;
+                tableRow.appendChild(indexCell);
+                
+                const ruleCell = document.createElement('td');
+                ruleCell.className = 'rule';
+                ruleCell.innerHTML = highlightRuleSyntax(rule);
+                tableRow.appendChild(ruleCell);
+                
+                const actionCell = document.createElement('td');
+                const editBtn = document.createElement('button');
+                editBtn.className = 'btn-transparent transparentEditBtn';
+                editBtn.title = 'Edit';
+                editBtn.textContent = '\u00a0';
+                editBtn.addEventListener('click', () => showEditRuleField(tableRow, i));
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'btn-transparent transparentDeleteBtn';
+                deleteBtn.title = 'Delete';
+                deleteBtn.textContent = '\u00a0';
+                deleteBtn.addEventListener('click', (event) => showDeleteRuleModal(tableRow, event.shiftKey, i));
+                
+                actionCell.appendChild(editBtn);
+                actionCell.appendChild(deleteBtn);
+                tableRow.appendChild(actionCell);
+                
+                rulesTable.appendChild(tableRow);
+                i++;
             });
         }
         addRuleForm.querySelector('.index').placeholder = i;
@@ -257,13 +297,13 @@ async function loadRules(forceUpdate = true) {
 
 async function moveRow(oldIndex, newIndex) {
     if(oldIndex == newIndex) return;
-    let res = await fetch(`/api/rules?table=${currentChain.table}&ip6=${currentChain.ip6}&chain=${currentChain.name}&action=move&index=${oldIndex}&newIndex=${newIndex}`, { method: 'POST' });
+    let res = await fetch(`/api/rules?table=${encodeParam(currentChain.table)}&ip6=${currentChain.ip6}&chain=${encodeParam(currentChain.name)}&action=move&index=${oldIndex}&newIndex=${newIndex}`, { method: 'POST' });
     if(res.status == 500) throw new Error(await res.text());
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
     await loadRules();
 }
 
-async function showDeleteRuleModal(button, skipWarning, index) {
+async function showDeleteRuleModal(row, skipWarning, index) {
     const clickHandler = async () => {
         try {
             await deleteRule(index);
@@ -278,24 +318,23 @@ async function showDeleteRuleModal(button, skipWarning, index) {
     if(skipWarning) {
         clickHandler();
     } else {
-        const row = button.parentElement.parentElement;
+        const ruleText = row.dataset.rule;
         const modalOpts = {
             type: 'danger',
             title: 'Delete rule',
-            body: `<p>Are you sure that you want to delete the following rule?</p><b>${row.dataset.rule}</b>`
+            body: `<p>Are you sure that you want to delete the following rule?</p><b>${escapeHtml(ruleText)}</b>`
         };
         if((await showModal(modalOpts)).accept) clickHandler();
     }
 }
 async function deleteRule(index) {
-    let res = await fetch(`/api/rules?table=${currentChain.table}&ip6=${currentChain.ip6}&chain=${currentChain.name}&index=${index}`, { method: 'DELETE' });
+    let res = await fetch(`/api/rules?table=${encodeParam(currentChain.table)}&ip6=${currentChain.ip6}&chain=${encodeParam(currentChain.name)}&index=${index}`, { method: 'DELETE' });
     if(res.status == 500) throw new Error(await res.text());
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
     await loadRules();
 }
 
-function showEditRuleField(button, index) {
-    const row = button.parentElement.parentElement;
+function showEditRuleField(row, index) {
     const ruleColumn = row.querySelector('.rule');
     if(row.dataset.edit == 'true') {
         row.dataset.edit = 'false';
@@ -305,17 +344,18 @@ function showEditRuleField(button, index) {
         const textField = document.createElement('input');
         textField.classList.add('form-control', 'input-sm');
         textField.value = ruleColumn.innerText;
+        const originalRule = row.dataset.rule;
         textField.onkeydown = async event => {
             if(event.key == 'Enter') {
                 row.dataset.edit = 'false';
-                if(!textField.value || textField.value == row.dataset.rule) {
-                    ruleColumn.innerHTML = highlightRuleSyntax(row.dataset.rule);
+                if(!textField.value || textField.value == originalRule) {
+                    ruleColumn.innerHTML = highlightRuleSyntax(originalRule);
                     return;
                 }
                 try {
                     await editRule(index, textField.value);
                 } catch(err) {
-                    ruleColumn.innerHTML = highlightRuleSyntax(row.dataset.rule);
+                    ruleColumn.innerHTML = highlightRuleSyntax(originalRule);
                     showError(err.message);
                 }
             }
@@ -326,7 +366,7 @@ function showEditRuleField(button, index) {
     }
 }
 async function editRule(index, newValue) {
-    let res = await fetch(`/api/rules?table=${currentChain.table}&ip6=${currentChain.ip6}&chain=${currentChain.name}&action=edit&index=${index}`, {
+    let res = await fetch(`/api/rules?table=${encodeParam(currentChain.table)}&ip6=${currentChain.ip6}&chain=${encodeParam(currentChain.name)}&action=edit&index=${index}`, {
         method: 'POST',
         headers: new Headers({'Content-Type': 'application/json'}),
         body: JSON.stringify({rule: newValue})
@@ -363,7 +403,7 @@ addRuleForm.querySelector('.transparentCreateBtn').addEventListener('click', asy
 async function insertRule(index, value) {
     if(!value) return;
 
-    let res = await fetch(`/api/rules?table=${currentChain.table}&ip6=${currentChain.ip6}&chain=${currentChain.name}&index=${index}`, {
+    let res = await fetch(`/api/rules?table=${encodeParam(currentChain.table)}&ip6=${currentChain.ip6}&chain=${encodeParam(currentChain.name)}&index=${index}`, {
         method: 'PUT',
         headers: new Headers({'Content-Type': 'application/json'}),
         body: JSON.stringify({rule: value})
