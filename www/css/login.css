@@ -1,0 +1,87 @@
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f9ff 0%, #eef5ff 45%, #f9fbff 100%);
+    color: #223047;
+}
+
+.login-shell {
+    padding-top: 2.5rem;
+}
+
+.brand-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(47, 122, 230, 0.12);
+    color: #2f7ae6;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.brand-pill::before {
+    content: "";
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2f7ae6, #4bb7df);
+    box-shadow: 0 0 0 0.2rem rgba(47, 122, 230, 0.16);
+}
+
+.login-card {
+    border: 1px solid rgba(47, 122, 230, 0.14);
+    border-radius: 1.15rem;
+    background: rgba(255, 255, 255, 0.96);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 0.3rem;
+    background: linear-gradient(90deg, #2f7ae6, #4bb7df 55%, #7b8cff);
+}
+
+.login-card .card-body {
+    position: relative;
+    z-index: 1;
+}
+
+.login-card .form-control {
+    border-color: #d8e3f0;
+    border-radius: 0.75rem;
+    padding: 0.8rem 0.95rem;
+}
+
+.login-card .form-control:focus {
+    border-color: #2f7ae6;
+    box-shadow: 0 0 0 0.2rem rgba(47, 122, 230, 0.16);
+}
+
+.login-card .btn-primary {
+    border: none;
+    border-radius: 0.8rem;
+    background: linear-gradient(135deg, #2f7ae6 0%, #3d8ef7 100%);
+    box-shadow: 0 10px 24px rgba(47, 122, 230, 0.2);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.login-card .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px rgba(47, 122, 230, 0.24);
+}
+
+.login-card .btn-primary:disabled {
+    opacity: 0.65;
+    box-shadow: none;
+}
+
+.login-subtitle {
+    color: #58708f;
+    font-size: 0.95rem;
+}

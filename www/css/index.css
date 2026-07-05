@@ -1,10 +1,62 @@
+body {
+    background: linear-gradient(180deg, #f7fbff 0%, #f2f7ff 100%);
+    color: #223047;
+    padding-bottom: 2rem;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(47, 122, 230, 0.12);
+    color: #2f7ae6;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.brand-badge::before {
+    content: "";
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2f7ae6, #4bb7df);
+    box-shadow: 0 0 0 0.2rem rgba(47, 122, 230, 0.16);
+}
+
+.btn-group-split {
+    margin-top: 1.5rem;
+    padding: 0.85rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.84);
+    box-shadow: 0 8px 24px rgba(47, 122, 230, 0.08);
+    backdrop-filter: blur(6px);
+}
+
+.btn-group .btn,
+.btn-group .dropdown-toggle {
+    border-radius: 0.7rem;
+}
+
+.btn-primary,
+.btn-info {
+    box-shadow: 0 8px 18px rgba(47, 122, 230, 0.14);
+}
+
 #rulesTable .handle {
     width: 35px;
     background: no-repeat center/40% url(../img/grip-handle.svg);
     cursor: move;
 }
 #rulesTable .isDragged > td {
-    background-color: rgba(152, 152, 152, 0.5);
+    background-color: rgba(47, 122, 230, 0.12);
     transition: 0.3s;
 }
 #rulesTable td {
@@ -37,6 +89,17 @@
 }
 #chainSelect {
     margin-top: 4rem;
+}
+
+.table {
+    border-radius: 0.8rem;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(34, 48, 71, 0.06);
+}
+
+.table thead {
+    background: linear-gradient(90deg, #2f7ae6 0%, #4bb7df 100%);
+    color: #fff;
 }
 
 .hl-color-not {

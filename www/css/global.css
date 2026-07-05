@@ -13,6 +13,14 @@
 .input-sm {
     padding: 1px 4px;
 }
+.btn-link {
+    color: #2f7ae6;
+    font-weight: 600;
+}
+.btn-link:hover {
+    color: #255fb6;
+    text-decoration: none;
+}
 .transparentDeleteBtn {
     background: no-repeat center url(../img/trash.svg);
     width: 14px;

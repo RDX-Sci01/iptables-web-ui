@@ -5,8 +5,8 @@ LABEL org.opencontainers.image.source=https://github.com/1RandomDev/iptables-web
 RUN apk add iptables xtables-addons conntrack-tools
 
 # Create non-root user for security
-RUN addgroup -g 1000 nodeapp && \
-    adduser -D -u 1000 -G nodeapp nodeapp
+RUN addgroup -g 1001 nodeapp && \
+    adduser -D -u 1001 -G nodeapp nodeapp
 
 COPY . /app
 WORKDIR /app

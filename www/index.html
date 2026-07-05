@@ -12,11 +12,14 @@
 </head>
 <body>
     <div class="container">
-        <div class="clearfix float-end mt-3">
-            <a class="btn btn-link p-1" href="conntrack.html">Connections</a>
-            <button id="loadRulesBtn" class="btn btn-link p-1">Load</button>
-            <button id="saveRulesBtn" class="btn btn-link p-1">Save</button>
-            <button id="logoutBtn" class="d-none btn btn-link p-1 link-danger">Logout</button>
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-3">
+            <div class="brand-badge">Custom Firewall Manager</div>
+            <div class="clearfix float-end">
+                <a class="btn btn-link p-1" href="conntrack.html">Connections</a>
+                <button id="loadRulesBtn" class="btn btn-link p-1">Load</button>
+                <button id="saveRulesBtn" class="btn btn-link p-1">Save</button>
+                <button id="logoutBtn" class="d-none btn btn-link p-1 link-danger">Logout</button>
+            </div>
         </div>
 
         <div id="chainSelect" class="btn-group-split flex-wrap justify-content-center top-0 start-50 translate-middle-x">
