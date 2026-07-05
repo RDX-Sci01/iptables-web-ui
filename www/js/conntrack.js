@@ -2,7 +2,7 @@ const connectionTable = document.querySelector('#connectionTable tbody');
 const connectionCount = document.getElementById('connectionCount');
 
 async function loadEntries() {
-    const res = await fetch('/api/conntrack');
+    const res = await fetch(new URL('./api/conntrack', window.location.href));
     if(res.status == 500) throw new Error(await res.text());
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
     const parser = new DOMParser();
@@ -66,7 +66,7 @@ async function loadEntries() {
 
 async function deleteEntry(id) {
     try {
-        const res = await fetch('/api/conntrack?id=' + encodeParam(id), { method: 'DELETE' });
+        const res = await fetch(new URL('./api/conntrack?id=' + encodeParam(id), window.location.href), { method: 'DELETE' });
         if(res.status == 500) throw new Error(await res.text());
         if(!res.ok) throw new Error('Request failed with status: '+res.status);
         showToast({
@@ -81,7 +81,7 @@ async function deleteEntry(id) {
 
 async function flushTable() {
     try {
-        const res = await fetch('/api/conntrack?flush=1', { method: 'DELETE' });
+        const res = await fetch(new URL('./api/conntrack?flush=1', window.location.href), { method: 'DELETE' });
         if(res.status == 500) throw new Error(await res.text());
         if(!res.ok) throw new Error('Request failed with status: '+res.status);
         showToast({
@@ -170,7 +170,7 @@ document.getElementById('flushBtn').addEventListener('click', async event => {
 
 if(document.cookie.includes('token=')) logoutBtn.classList.remove('d-none');
 logoutBtn.addEventListener('click', async () => {
-    let res = await fetch('/api/logout', { method: 'POST' });
+    let res = await fetch(new URL('./api/logout', window.location.href), { method: 'POST' });
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
-    window.location.replace('/login.html');
+    window.location.replace(new URL('./login.html', window.location.href));
 });

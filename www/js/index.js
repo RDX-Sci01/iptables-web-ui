@@ -35,7 +35,7 @@ async function loadChains() {
         const table = element.dataset.table;
         const ip6 = element.dataset.ip6 == 'true';
     
-        let res = await fetch(`/api/chain?table=${encodeParam(table)}&ip6=${ip6}`);
+        let res = await fetch(new URL(`./api/chain?table=${encodeParam(table)}&ip6=${ip6}`, window.location.href));
         if(res.status == 500) throw new Error(await res.text());
         if(!res.ok) throw new Error('Request failed with status: '+res.status);
         res = await res.json();
@@ -515,7 +515,7 @@ function highlightRuleSyntax(rule) {
 
 if(document.cookie.includes('token=')) logoutBtn.classList.remove('d-none');
 logoutBtn.addEventListener('click', async () => {
-    let res = await fetch('/api/logout', { method: 'POST' });
+    let res = await fetch(new URL('./api/logout', window.location.href), { method: 'POST' });
     if(!res.ok) throw new Error('Request failed with status: '+res.status);
-    window.location.replace('/login.html');
+    window.location.replace(new URL('./login.html', window.location.href));
 });
