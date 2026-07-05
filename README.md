@@ -1,7 +1,7 @@
 
 <div align="center">
-<a href="https://github.com/1RandomDev/iptables-web-ui">
-    <img src="https://raw.githubusercontent.com/1RandomDev/iptables-web-ui/master/www/img/icon.png" width="128" />
+<a href="https://github.com/RDX-Sci01/iptables-web-ui">
+    <img src="https://raw.githubusercontent.com/RDX-Sci01/iptables-web-ui/master/www/img/icon.png" width="128" />
 </a>
 </div>
 <br>
@@ -10,7 +10,7 @@
 
 A web-based manager for Iptables rules that uses the same syntax as the `iptables` CLI, featuring a well-organized table layout and allowing users to easily insert, delete, edit, and rearrange rules via drag-and-drop.
 
-![Screenshot](https://raw.githubusercontent.com/1RandomDev/iptables-web-ui/master/assets/screenshot1.png)
+![Screenshot](https://raw.githubusercontent.com/RDX-Sci01/iptables-web-ui/master/assets/screenshot1.png)
 
 ## ⚠️ Security Notice
 

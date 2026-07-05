@@ -1,6 +1,6 @@
 FROM node:lts-alpine
 
-LABEL org.opencontainers.image.source=https://github.com/1RandomDev/iptables-web-ui
+LABEL org.opencontainers.image.source=https://github.com/RDX-Sci01/iptables-web-ui
 
 RUN apk add iptables xtables-addons conntrack-tools
 
