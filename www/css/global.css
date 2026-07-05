@@ -1,24 +1,36 @@
+:root {
+    color-scheme: dark;
+}
+body {
+    background-color: #020617;
+    color: #e2e8f0;
+}
+a {
+    color: #8ab4ff;
+}
 .checkbox-info:checked {
     background-color: var(--bs-info);
     border-color: var(--bs-info);
 }
 .input-dark {
-    background-color: #4b4b4b;
-    color: white;
-    --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23dee2e6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-color: #111827;
+    color: #f9fafb;
+    border-color: #334155;
+    --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23e2e8f0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
 }
 .input-dark:focus {
-    border-color: #505b64;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 0.2rem rgba(96, 165, 250, 0.2);
 }
 .input-sm {
     padding: 1px 4px;
 }
 .btn-link {
-    color: #2f7ae6;
+    color: #8ab4ff;
     font-weight: 600;
 }
 .btn-link:hover {
-    color: #255fb6;
+    color: #bfdbfe;
     text-decoration: none;
 }
 .transparentDeleteBtn {

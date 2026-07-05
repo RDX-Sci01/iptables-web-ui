@@ -1,6 +1,6 @@
 body {
-    background: linear-gradient(180deg, #f7fbff 0%, #f2f7ff 100%);
-    color: #223047;
+    background: radial-gradient(circle at top, #111827 0%, #0f172a 55%, #020617 100%);
+    color: #e2e8f0;
     padding-bottom: 2rem;
 }
 
@@ -14,8 +14,8 @@ body {
     gap: 0.45rem;
     padding: 0.4rem 0.75rem;
     border-radius: 999px;
-    background: rgba(47, 122, 230, 0.12);
-    color: #2f7ae6;
+    background: rgba(59, 130, 246, 0.16);
+    color: #dbeafe;
     font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -27,16 +27,17 @@ body {
     width: 0.6rem;
     height: 0.6rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, #2f7ae6, #4bb7df);
-    box-shadow: 0 0 0 0.2rem rgba(47, 122, 230, 0.16);
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.18);
 }
 
 .btn-group-split {
     margin-top: 1.5rem;
     padding: 0.85rem;
     border-radius: 1rem;
-    background: rgba(255, 255, 255, 0.84);
-    box-shadow: 0 8px 24px rgba(47, 122, 230, 0.08);
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.35);
     backdrop-filter: blur(6px);
 }
 
@@ -47,7 +48,7 @@ body {
 
 .btn-primary,
 .btn-info {
-    box-shadow: 0 8px 18px rgba(47, 122, 230, 0.14);
+    box-shadow: 0 8px 18px rgba(59, 130, 246, 0.2);
 }
 
 #rulesTable .handle {
@@ -56,7 +57,7 @@ body {
     cursor: move;
 }
 #rulesTable .isDragged > td {
-    background-color: rgba(47, 122, 230, 0.12);
+    background-color: rgba(59, 130, 246, 0.16);
     transition: 0.3s;
 }
 #rulesTable td {
@@ -94,28 +95,35 @@ body {
 .table {
     border-radius: 0.8rem;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(34, 48, 71, 0.06);
+    background-color: #111827;
+    color: #e2e8f0;
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.3);
 }
 
 .table thead {
-    background: linear-gradient(90deg, #2f7ae6 0%, #4bb7df 100%);
+    background: linear-gradient(90deg, #38bdf8 0%, #6366f1 100%);
     color: #fff;
 }
 
+.table td,
+.table th {
+    border-color: #334155;
+}
+
 .hl-color-not {
-    color: #f13e4a;
+    color: #fb7185;
 }
 .hl-color-ip {
-    color: #a347b4;
+    color: #c084fc;
 }
 .hl-color-if {
-    color: #2aa0ac;
+    color: #2dd4bf;
 }
 .hl-color-tcp {
-    color: #d19360;
+    color: #f59e0b;
 }
 .hl-link {
-    color: #2a7ce0;
+    color: #7dd3fc;
     cursor: pointer;
 }
 .hl-link:hover {

@@ -1,7 +1,7 @@
 body {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f5f9ff 0%, #eef5ff 45%, #f9fbff 100%);
-    color: #223047;
+    background: radial-gradient(circle at top left, #111827 0%, #0f172a 45%, #020617 100%);
+    color: #f8fafc;
 }
 
 .login-shell {
@@ -14,8 +14,8 @@ body {
     gap: 0.45rem;
     padding: 0.45rem 0.8rem;
     border-radius: 999px;
-    background: rgba(47, 122, 230, 0.12);
-    color: #2f7ae6;
+    background: rgba(59, 130, 246, 0.16);
+    color: #dbeafe;
     font-size: 0.82rem;
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -27,14 +27,15 @@ body {
     width: 0.6rem;
     height: 0.6rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, #2f7ae6, #4bb7df);
-    box-shadow: 0 0 0 0.2rem rgba(47, 122, 230, 0.16);
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.18);
 }
 
 .login-card {
-    border: 1px solid rgba(47, 122, 230, 0.14);
+    border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 1.15rem;
-    background: rgba(37, 33, 33, 0.96);
+    background: rgba(15, 23, 42, 0.95);
+    box-shadow: 0 24px 60px rgba(2, 6, 23, 0.45);
     position: relative;
     overflow: hidden;
 }
@@ -44,7 +45,7 @@ body {
     position: absolute;
     inset: 0 0 auto 0;
     height: 0.3rem;
-    background: linear-gradient(90deg, #2f7ae6, #4bb7df 55%, #7b8cff);
+    background: linear-gradient(90deg, #38bdf8, #818cf8 55%, #60a5fa);
 }
 
 .login-card .card-body {
@@ -53,27 +54,33 @@ body {
 }
 
 .login-card .form-control {
-    border-color: #d8e3f0;
+    background: #111827;
+    color: #f8fafc;
+    border-color: #334155;
     border-radius: 0.75rem;
     padding: 0.8rem 0.95rem;
 }
 
+.login-card .form-control::placeholder {
+    color: #94a3b8;
+}
+
 .login-card .form-control:focus {
-    border-color: #2f7ae6;
-    box-shadow: 0 0 0 0.2rem rgba(47, 122, 230, 0.16);
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 0.2rem rgba(96, 165, 250, 0.2);
 }
 
 .login-card .btn-primary {
     border: none;
     border-radius: 0.8rem;
-    background: linear-gradient(135deg, #2f7ae6 0%, #3d8ef7 100%);
-    box-shadow: 0 10px 24px rgba(47, 122, 230, 0.2);
+    background: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
+    box-shadow: 0 10px 24px rgba(59, 130, 246, 0.25);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .login-card .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 14px 28px rgba(47, 122, 230, 0.24);
+    box-shadow: 0 14px 28px rgba(59, 130, 246, 0.3);
 }
 
 .login-card .btn-primary:disabled {
@@ -82,6 +89,6 @@ body {
 }
 
 .login-subtitle {
-    color: #58708f;
+    color: #94a3b8;
     font-size: 0.95rem;
 }

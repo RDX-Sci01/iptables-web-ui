@@ -1,6 +1,6 @@
 body {
-    background: linear-gradient(180deg, #f7fbff 0%, #f2f7ff 100%);
-    color: #223047;
+    background: radial-gradient(circle at top, #111827 0%, #0f172a 55%, #020617 100%);
+    color: #e2e8f0;
     padding-bottom: 2rem;
 }
 
@@ -15,8 +15,8 @@ body {
     gap: 0.45rem;
     padding: 0.4rem 0.75rem;
     border-radius: 999px;
-    background: rgba(47, 122, 230, 0.12);
-    color: #2f7ae6;
+    background: rgba(59, 130, 246, 0.16);
+    color: #dbeafe;
     font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -28,8 +28,8 @@ body {
     width: 0.6rem;
     height: 0.6rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, #2f7ae6, #4bb7df);
-    box-shadow: 0 0 0 0.2rem rgba(47, 122, 230, 0.16);
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.18);
 }
 
 .connectionsTitle .btn-transparent {
@@ -41,35 +41,42 @@ body {
 .table {
     border-radius: 0.8rem;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(34, 48, 71, 0.06);
+    background-color: #111827;
+    color: #e2e8f0;
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.3);
 }
 
 .table thead {
-    background: linear-gradient(90deg, #2f7ae6 0%, #4bb7df 100%);
+    background: linear-gradient(90deg, #38bdf8 0%, #6366f1 100%);
     color: #fff;
 }
 
+.table td,
+.table th {
+    border-color: #334155;
+}
+
 .hl-proto-tcp {
-    color: #b3c73f;
+    color: #c4d739;
 }
 .hl-proto-udp {
-    color: #30b8a6;
+    color: #34d399;
 }
 .hl-proto-icmp, .hl-proto-icmpv6 {
-    color: #e0732a;
+    color: #fb923c;
 }
 .hl-proto-l3 {
-    color: #a347b4;
+    color: #c084fc;
 }
 .hl-proto-l4 {
-    color: #d19360;
+    color: #f59e0b;
 }
 .hl-state-established, .hl-state-new, .hl-state-related, .hl-state-assured {
-    color: #39dd62;
+    color: #4ade80;
 }
 .hl-state-syn_sent, .hl-state-syn_recv, .hl-state-fin_wait, .hl-state-close_wait, .hl-state-unreplied {
-    color: #ffff00;
+    color: #fde047;
 }
 .hl-state-time_wait, .hl-state-close, .hl-state-unacknowledged {
-    color: #da4141;
+    color: #fb7185;
 }
